@@ -1,0 +1,36 @@
+<h3>{$formInfo.name}列表</h3>
+<admin:panel >
+<admin:tabletool filter="false" url="{$url}" keyword="{$keyword}">
+</admin:tabletool>
+	<table id="table" class="m-table ">
+    	<thead>
+        <th width="50">编号</th>
+        <foreach name="tableTh" item="vo">
+        <th>{$vo}</th>
+        </foreach>
+        <th width="120">操作</th>
+        </thead>
+        <tbody>
+    <foreach name="list" item="vo">
+      <tr>
+      	<td>{$vo.data_id}</td>
+        <foreach name="fieldList" item="val">
+        <if condition="$val['show']"> 
+        <td><?php echo D('DuxCms/FieldData')->showListField($vo[$val['field']],$val['type'],$val['config']); ?></td>
+        </if>
+        </foreach>
+        <td>
+        <a class="u-btn u-btn-primary u-btn-small" href="{:U('edit',array('data_id'=>$vo['data_id'],'fieldset_id'=>$formInfo['fieldset_id']))}">修改</a>
+        <a class="u-btn u-btn-danger u-btn-small del" href="javascript:;" url="{:U('del',array('fieldset_id'=>$formInfo['fieldset_id']))}" data="{$vo.data_id}">删除</a>
+        </td>
+      </tr>
+    </foreach>
+    </tbody>
+    </table>
+  <admin:tablefoot action="false" />
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#table').duxTable({});
+});
+</script> 

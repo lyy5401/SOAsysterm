@@ -1,0 +1,14 @@
+<h3>{$name}{$formInfo.name}</h3>
+<admin:panel >
+  <admin:form url="{:U()}" method="post" id="form"  class="m-form-horizontal" >
+    {$html}
+    <admin:formsubmit/>
+    <admin:text name="fieldset_id" type="hidden"  value="{$formInfo.fieldset_id}"  />
+    <admin:text name="data_id" type="hidden"  value="{$info.data_id}"  />
+  </admin:form>
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#form').duxFormPage();
+});
+</script>

@@ -1,0 +1,23 @@
+<h3>字段列表 [{$fieldsetInfo.name}]</h3>
+<admin:panel >
+  <admin:table id="table" show="名称,字段,排序,类型,验证,操作|120"  class="m-table-border">
+    <foreach name="list" item="vo">
+      <tr>
+        <td>{$vo.name}</td>
+        <td>{$vo.field}</td>
+        <td>{$vo.sequence}</td>
+        <td><?php echo $typeField[$vo['type']]['name']; ?></td>
+        <td><?php $vo['verify_data']=base64_decode($vo['verify_data']); ?>
+          <if condition="$vo['verify_data']"> <span class="u-badge u-badge-success">验证</span>
+            <else />
+            <span class="u-badge u-badge-danger">不验证</span> </if></td>
+        <td><a class="u-btn u-btn-primary u-btn-small" href="{:U('edit',array('field_id'=>$vo['field_id'],'fieldset_id'=>$vo['fieldset_id']))}">修改</a> <a class="u-btn u-btn-danger u-btn-small del" href="javascript:;" url="{:U('del')}" data="{$vo.field_id}">删除</a></td>
+      </tr>
+    </foreach>
+  </admin:table>
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#table').duxTable({});
+});
+</script> 

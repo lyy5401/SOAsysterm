@@ -1,0 +1,20 @@
+<h3>推荐位列表</h3>
+<admin:panel >
+<admin:table id="table" show="编号|50,名称,顺序,操作|120"  class="m-table-border">
+  <foreach name="list" item="vo">
+    <tr>
+      <td>{$vo.position_id}</td>
+      <td>{$vo.name}</td>
+      <td>{$vo.sequence}</td>
+      <td><a class="u-btn u-btn-primary u-btn-small" href="{:U('edit',array('position_id'=>$vo['position_id']))}">修改</a> <a class="u-btn u-btn-danger u-btn-small del" href="javascript:;" data="{$vo.position_id}">删除</a></td>
+    </tr>
+  </foreach>
+</admin:table>
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#table').duxTable({
+		deleteUrl: "{:U('del')}"
+	});
+});
+</script> 

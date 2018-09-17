@@ -1,0 +1,24 @@
+<h3>标签列表</h3>
+<admin:panel >
+<admin:table id="table" show="选择|30,编号|50,名称,点击量,引用数"  class="m-table-border">
+  <foreach name="list" item="vo">
+    <tr>
+    	<td>
+        	<input type="checkbox" name="id[]" value="{$vo.tag_id}" />
+        </td>
+      <td>{$vo.tag_id}</td>
+      <td><a href="{$vo.url}" target="_blank">{$vo.name}</a></td>
+      <td>{$vo.click}</td>
+      <td>{$vo.quote}</td>
+    </tr>
+  </foreach>
+</admin:table>
+<admin:tablefoot action="true" item="删除" value="1" />
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#table').duxTable({
+		deleteUrl: "{:U('del')}"
+	});
+});
+</script> 

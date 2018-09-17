@@ -1,0 +1,163 @@
+<div class="g-grid">
+  <div class="g-col-4-1">
+    <div class="m-panel s-panel-info">
+      <div class="panel-header">
+        <div class="f-cb">
+          <div class="f-fl"><i class="u-icon-align-center u-font-5x"></i></div>
+          <div class="f-fr f-tar">
+            <h3>{$allsum}</h3>
+            <p>客户总数</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="g-col-4-1">
+    <div class="m-panel s-panel-danger">
+      <div class="panel-header">
+        <div class="f-cb">
+          <div class="f-fl"> <i class="u-icon-align-right u-font-5x"></i> </div>
+          <div class="f-fr f-tar">
+            <h3>{$allhz}</h3>
+            <p>合作客户数</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="g-col-4-1">
+    <div class="m-panel s-panel-success">
+      <div class="panel-header">
+        <div class="f-cb">
+          <div class="f-fl"> <i class="u-icon-adjust u-font-5x"></i> </div>
+          <div class="f-fr f-tar">
+            <h3>{$allwhz}</h3>
+            <p>未合作客户数</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<if condition="$_SESSION['rank'] eq 1">
+<if class="g-grid">
+  <div class="g-col-2-1">
+    <div class="m-panel">
+      <div class="panel-header"> <i class="u-icon-bars"></i> 环境信息 </div>
+      <div class="m-table-mobile">
+        <table class="m-table">
+          <tbody>
+            <tr>
+              <td>系统环境</td>
+              <td>{:PHP_OS}/<?php echo $_SERVER['SERVER_SOFTWARE'] ; ?></td>
+            </tr>
+            <tr>
+              <td>服务器地址:</td>
+              <td>{$_SERVER.SERVER_ADDR}:{$_SERVER.SERVER_PORT}</td>
+            </tr>
+            <tr>
+              <td>服务器时间</td>
+              <td>{:date('Y-m-d H:i:s')} {:date_default_timezone_get()}</td>
+            </tr>
+            <tr>
+              <td>脚本超时时间</td>
+              <td><?php echo get_cfg_var("max_execution_time") ; ?> 秒</td>
+            </tr>
+            <tr>
+              <td>上传大小</td>
+              <td><?php echo get_cfg_var("upload_max_filesize")?get_cfg_var("upload_max_filesize"):"不允许上传文件" ; ?></td>
+            </tr>
+            <tr>
+              <td>被屏蔽的函数:</td>
+              <td><?php echo get_cfg_var("disable_functions")?get_cfg_var("disable_functions"):"无" ; ?></td>
+            </tr>
+            <tr>
+              <td>URL路径：</td>
+              <td>__ROOT__/</td>
+            </tr>
+          <td>物理路径：</td>
+            <td>{:dirname(THINK_PATH)}</td>
+          </tr>
+            </tbody>
+          
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="g-col-2-1  g-col-last">
+    <div class="m-panel">
+      <div class="panel-header"> <i class="u-icon-bar-chart-o"></i> 程序信息 </div>
+      <div class="m-table-mobile">
+        <table class="m-table">
+          <tbody>
+            <tr>
+              <td>站点名称</td>
+              <td>{:C('SITE_TITLE')}</td>
+            </tr>
+            <tr>
+              <td>网站域名：</td>
+              <td><a href="http://{$_SERVER.SERVER_NAME}" target="_blank">http://{$_SERVER.SERVER_NAME}</a></td>
+            </tr>
+            <tr>
+              <td>程序版本</td>
+              <td>{:DUX_VER} ({:DUX_TIME})</td>
+            </tr>
+            <tr>
+              <td>最新版本</td>
+              <td><a href="javajscript:alert('没有发现升级版本');">检查版本</a></td>
+            </tr>
+            <tr>
+              <td>PHP版本</td>
+              <td>{:phpversion()}</td>
+            </tr>
+            <tr>
+              <td>数据驱动</td>
+              <td>{:C('DB_TYPE')}</td>
+            </tr>
+            <tr>
+              <td>附件上传目录：</td>
+              <td>{:APP_PATH}upload</td>
+            </tr>
+            <tr>
+              <td>站点工具</td>
+              <td><a href="javajscript:;" id="bom">清除BOM</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  </if>
+</div>
+<!--
+<div class="m-panel">
+  <div class="panel-header"> <i class="u-icon-bar-chart-o"></i> 程序支持 </div>
+  <div class="m-table-mobile">
+    <table class="m-table">
+      <tbody>
+        <tr>
+          <td>程序支持</td>
+          <td><a href="http://www.duxcms.com"  target="_blank">duxcms官网</a> <a href="http://doc.duxcms.com"  target="_blank">文档中心</a> <a href="http://bbs.duxcms.com"  target="_blank">duxcms论坛</a></td>
+        </tr>
+        <tr>
+          <td>开发团队</td>
+          <td><a href="http://www.duxcms.com" target="_blank">创客匠人(研发部)</a></td>
+        </tr>
+        <tr>
+          <td>开发组成员</td>
+          <td>lyy,火哥</td>
+        </tr>
+        <tr>
+          <td>运营支持</td>
+          <td><a href="http://www.duxcms.com">duxcms</a>、<a href="http://www.biggreentea.com" target="_blank">大绿茶</a></td>
+        </tr>
+        <tr>
+          <td>支持贡献</td>
+          <td>伍艺高强、沧桑、anyfar、幸福使者、大绿茶等</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+-->

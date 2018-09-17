@@ -1,0 +1,30 @@
+<h3>模板设置</h3>
+<admin:panel >
+<admin:form url="{:U('tpl')}" method="post" id="form" class="m-form-horizontal" >
+  <admin:formrow title="站点模板" tip="当前站点所使用的主题" >
+    <div  class="input-group">
+      <admin:text name="tpl_name" value="{$info.tpl_name}" len="250" datatype="*" width="small" />
+      <admin:assigndown target="#tpl_name" name="请选择" data="themesList"  item="name,file" />
+    </div>
+  </admin:formrow>
+  <admin:formrow title="首页模板" tip="当前站点所使用的首页模板，无需后缀名" >
+    <div  class="input-group">
+      <admin:text name="tpl_index" value="{$info.tpl_index}" len="250" datatype="*" width="small" />
+      <admin:assigndown target="#tpl_index" name="请选择" data="tplList"  item="name,file" />
+    </div>
+  </admin:formrow>
+  <admin:panel title="扩展模板" icon="exclamation-circle" padding="true">
+  <admin:formrow title="Tag模板" tip="TAG基础模板名，请根据访问提示修改模板名，无需后缀名" >
+    <admin:text name="tpl_tags"  value="{$info.tpl_tags}" len="250"  width="small" />
+  </admin:formrow>
+  <admin:formrow title="搜索模板" tip="搜索列表的基础模板名，请根据访问提示修改模板名，无需后缀名" >
+    <admin:text name="tpl_search"  value="{$info.tpl_search}" len="250"  width="small" />
+  </admin:formrow>
+  <admin:formsubmit/>
+</admin:form>
+</admin:panel>
+<script>
+Do.ready('base', function() {
+	$('#form').duxForm();
+});
+</script> 

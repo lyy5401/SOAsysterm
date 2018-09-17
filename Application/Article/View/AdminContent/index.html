@@ -1,0 +1,73 @@
+<h3>文章列表</h3>
+<admin:panel >
+  <admin:tabletool filter="true" keyword="{$pageMaps.keyword}">
+  		<select name="class_id" id="class_id" class="form-element">
+          	<option value="0">==栏目==</option>
+            <foreach name="categoryList" item="vo">
+            	<option value="{$vo.class_id}"
+                <if condition="$pageMaps['class_id'] == $vo['class_id']"> selected="selected" </if>
+                <if condition="$vo['type'] == 0 || $vo['app'] != MODULE_NAME "> style="background-color:#CCC" disabled="disabled" </if>
+                >{$vo.cname}
+                </option>
+            </foreach>
+          </select>
+          <select name="position_id" id="position_id" class="form-element" >
+          	<option value="0">==推荐位==</option>
+            <foreach name="positionList" item="vo">
+            	<option value="{$vo.position_id}"
+                <if condition="$pageMaps['position_id'] == $vo['position_id']"> selected="selected" </if>
+                >{$vo.name}
+                </option>
+            </foreach>
+          </select>
+  	<admin:select name="status"  item="==状态==,发布,草稿" value="0,1,2" selected="$pageMaps['status']" />
+  </admin:tabletool>
+  <admin:table id="table" show="选择|30,编号|80,标题,栏目,状态|100,更新时间|170,操作|130">
+    <foreach name="list" item="vo">
+      <tr>
+        <td>
+        	<input type="checkbox" name="id[]" value="{$vo.content_id}" />
+        </td>
+        <td>{$vo.content_id}</td>
+        <td><a href="{$vo.aurl}" target="_blank">{$vo.title}</a></td>
+        <td><a href="{$vo.curl}" target="_blank">{$vo.class_name}</a></td>
+        <td>
+          <if condition="$vo['status']"> <span class="u-badge u-badge-success">发布</span>
+            <else />
+            <span class="u-badge u-badge-danger">草稿</span> </if>
+        </td>
+        <td>{$vo.time|date="Y-m-d H:i:s",###}</td>
+        <td>
+        <a class="u-btn u-btn-primary  u-btn-small" href="{:U('edit',array('content_id'=>$vo['content_id']))}">修改</a>
+        <a class="u-btn u-btn-danger  u-btn-small del" href="javascript:;" data="{$vo.content_id}">删除</a></td>
+      </tr>
+    </foreach>
+  </admin:table>
+  <admin:tablefoot action="true" item="发布,草稿,移动,删除" value="1,2,3,4" />
+</admin:panel>
+<script type="text/javascript" charset="utf-8">
+	Do.ready('base',function() {
+		//移动操作
+		$('#selectAction').change(function() {
+			var type = $(this).val();
+			if(type == 3){
+				$(this).after($('#class_id').clone());
+			}else{
+				$(this).nextAll('select').hide();
+			}
+		});
+		//表格处理
+		$('#table').duxTable({
+			actionUrl : "{:U('batchAction')}",
+			deleteUrl: "{:U('del')}",
+			actionParameter : function(){
+				return {'class_id' : $('#selectAction').next('#class_id').val()};
+			}
+		});
+	});
+</script>
+
+
+
+
+

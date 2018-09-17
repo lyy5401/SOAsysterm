@@ -1,0 +1,21 @@
+<h3>{$name}碎片</h3>
+<admin:panel >
+<admin:form url="{:U()}" method="post" id="form"   class="m-form-horizontal">
+  <admin:formrow title="碎片名称" tip="碎片名称">
+    <admin:text name="name"  value="{$info.name}" len="250" datatype="*"  />
+  </admin:formrow>
+  <admin:formrow title="碎片标识" tip="用于碎片调用">
+    <admin:text name="label"  value="{$info.label}" len="250" datatype="/^(?!\d)\w+$/" errormsg="碎片标识只能为英文数字和下划线！" />
+  </admin:formrow>
+  <admin:formrow title="碎片内容">
+          <admin:textarea name="content" class="u-editor" rows="20">{$info.content|htmlspecialchars_decode}</admin:textarea>
+        </admin:formrow>
+  <admin:formsubmit/>
+  <admin:text name="fragment_id" type="hidden"  value="{$info.fragment_id}"  />
+</admin:form>
+</admin:panel>
+<script>
+Do.ready('base',function() {
+    $('#form').duxFormPage();
+});
+</script> 

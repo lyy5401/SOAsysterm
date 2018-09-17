@@ -1,0 +1,30 @@
+<h3>{$name}备份</h3>
+<admin:panel >
+<admin:table id="table" show="表名,说明,索引大小,创建时间|180" class="m-table-border">
+  <foreach name="list" item="vo">
+    <tr>
+      <td>{$vo.Name}</td>
+      <td>{$vo.Comment}</td>
+      <td>{$vo.Index_length}</td>
+      <td>{$vo.Create_time}</td>
+    </tr>
+  </foreach>
+</admin:table>
+</admin:panel>
+<admin:panel >
+  <admin:form url="{:U()}" method="post" id="form"  class="m-form-horizontal" >
+    <admin:formrow title="备份说明" tip=""  >
+      备份后的数据保存在网站根目录下的Backup目录，请FTP下载后及时删除，执行数据库优化和修复可能因数据库大小会有延迟。
+    </admin:formrow>
+    <admin:formrow title="执行操作" tip=""  >
+      <admin:radio name="type"  item="备份,优化,修复" value="0,1,2" checked="0" />
+    </admin:formrow>
+    <admin:formsubmit/>
+    <admin:text name="user_id" type="hidden"  value="{$info.user_id}"  />
+  </admin:form>
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#form').duxForm();
+});
+</script> 

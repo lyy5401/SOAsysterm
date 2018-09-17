@@ -1,0 +1,37 @@
+<style>
+	.g-col-1-1{width: 100%;}  
+</style>
+<h3>用户组权限</h3>
+<admin:panel >
+<admin:form url="{:U()}" method="post" id="form" >
+  <admin:row>
+    <admin:grid item="1-1">
+      <legend>菜单权限</legend>
+      <foreach name="AdminMenu" item="top" key="topLabel" >
+        <admin:formrow title="{$top.name}" tip=" " >
+          <foreach name="top['menu']" item="parent" key="parentLabel" >
+            <if condition="$parent.name neq '用户组管理'">
+            <label class="radio-inline"> <input name="menu_purview[]" class="AdminMenu" type="checkbox" 
+                
+          
+              <if condition="in_array($top['name'].'_'.$parent['name'],(array)$AdminMenuArray) "> checked </if>
+              value="{$top.name}_{$parent.name}">
+              {$parent.name} </label>
+              </if>
+          </foreach>
+        </admin:formrow>
+      </foreach>
+    </admin:grid>
+    
+  </admin:row>
+  <admin:formsubmit/>
+  <admin:text name="group_id" type="hidden"  value="{$info.group_id}"  />
+</admin:form>
+</admin:panel>
+<script>
+//Do.ready('base',function() {
+//	$('#form').duxForm();
+//});
+
+
+</script> 

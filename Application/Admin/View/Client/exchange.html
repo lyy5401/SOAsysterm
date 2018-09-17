@@ -1,0 +1,55 @@
+<script src="__PUBLIC__/js/xcConfirm.js" type="text/javascript" charset="utf-8"></script>
+<style type="text/css">
+			.sgBtn{width: 135px; height: 35px; line-height: 35px; margin-left: 10px; margin-top: 10px; text-align: center; background-color: #0095D9; color: #FFFFFF; float: left; border-radius: 5px;}
+			.reset{background-color: #E6E7E8; height:35px;width:58px;border-radius: 3%;font-size:15px;}
+			.reset:hover{background-color: #F5F5F5;}
+			.sub{background-color: #8EC73B; height:35px;width:58px;border-radius: 3%;color: white;font-size:15px;}
+			.start{	border: 1px solid #DDDDDD;height: 27px;width:170px;	}
+			.end{border: 1px solid #DDDDDD;height: 27px;width: 170px;}
+	input{ vertical-align:middle; margin:0; padding:0}
+	.file-box{ position:relative;width:340px}
+	.txt{ height:27px; border:1px solid #DDDDDD; width:270px;}
+	.btn{ background-color:#FFF; border:1px solid #DDDDDD;height:27px; width:80px;}
+	.file{ position:absolute; top:80px;left:270px; height:24px; filter:alpha(opacity:0);opacity: 0;width:260px }
+</style>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/xcConfirm.css"/>
+
+<h3>导入数据 &emsp; <a href="{:U('downexcel')}"  class="u-btn u-btn-primary u-btn-small">点击下载上传模板</a></h3>
+
+<admin:panel >
+
+    <form action="{:U('import_data')}"  method="post" enctype="multipart/form-data" class="m-form-horizontal" style="margin-left: 20px;">
+
+	<admin:formrow title="选择文件" tip="选择需要导入的数据文件" labelwidth="1" width="2" >		
+     <input type='text' name='textfield' id='textfield' class='txt' />  
+ 	 <input type='button' class='btn' value='浏览...' />
+ 	 <input type="file" name="fileField" class="file" id="fileField" size="28" onchange="document.getElementById('textfield').value=this.value"  style="cursor: hand;" />
+    </admin:formrow>  
+    <br />
+	<admin:formrow >
+      <input type="submit" value="导入"  class="sub"/>&emsp;&emsp;
+      <input type="reset" class="reset">
+      </admin:formrow>
+	
+ </form>
+</admin:panel>
+
+<!--
+<h3>导出数据</h3>
+<admin:panel >
+	<admin:form url="{:U('expUser')}" method="post" id="form"   class="m-form-horizontal">
+	 <admin:formrow title="手机号码" tip="客户手机号码" labelwidth="1" width="2" >
+    <admin:text name="phone" len="200" datatype="*"  />
+    </admin:formrow>  
+    <admin:formrow title="时间段" tip="导出时间段" labelwidth="1" width="2" >
+    	<input type="date" name="start" class="start" />
+    	至<input type="date" name="end" class="end" />
+    </admin:formrow>  
+     <admin:formrow >
+      <input type="submit" value="导出"  class="sub"/>&emsp;&emsp;
+      <input type="reset" class="reset">
+      </admin:formrow>
+	</admin:form>
+</admin:panel>
+
+-->

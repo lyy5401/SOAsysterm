@@ -1,0 +1,63 @@
+<h3>{$name}字段 [{$fieldsetInfo.name}]</h3>
+<admin:panel >
+  <admin:form url="{:U()}" method="post" id="form"  class="m-form-horizontal" >
+    <admin:formrow title="名称" tip="当前字段集的描述"  >
+      <admin:text name="name"  value="{$info.name}" len="200" datatype="*"  />
+    </admin:formrow>
+    <admin:formrow title="字段名" tip="数据库中的表名"  >
+      <admin:text name="field"  value="{$info.field}" len="20" datatype="/^(?!\d)\w+$/" errormsg="字段表只能为英文数字和下划线！"  />
+    </admin:formrow>
+    <admin:formrow title="字段类型" tip="">
+      <select name="type" class="form-element">
+        <foreach name="typeField"  key="key" item="vo"> <option value="{$key}"
+          <if condition="$info['type']==$key"> selected="selected" </if>
+          >{$vo.name} (<?php echo $propertyField[$vo['property']]['name']; ?>)
+          </option>
+        </foreach>
+      </select>
+    </admin:formrow>
+    <admin:formrow title="字段提示" tip="字段后面的提示信息"  >
+      <admin:text name="tip"  value="{$info.tip}" />
+    </admin:formrow>
+    <admin:formrow title="字段后端验证" tip="PHP处理时进行的验证，输入框为验证规则，不验证请留空"  >
+      <select name="verify_type" class="form-element u-width-sall">
+        <foreach name="typeVerify"  key="key" item="vo"> 
+        	<option value="{$vo.data}"
+            <if condition="$info['verify_type']==$vo['data']"> selected="selected" </if>
+            >{$vo.name}</option>
+        </foreach>
+      </select>
+      <admin:text name="verify_data"  value="{$info.verify_data|base64_decode}" width="sall" />
+      <admin:assigndown target="#verify_data" name="==内置规则==" data="ruleVerify"  item="data,name" />
+    </admin:formrow>
+    <admin:formrow title="字段js验证" tip="用于表单的JS验证规则，不验证请留空，请参考 validform.rjboy.cn"  >
+      <admin:text name="verify_data_js"  value="{$info.verify_data_js|base64_decode}" width="medium" />
+      <admin:assigndown target="#verify_data_js" name="==内置规则==" data="ruleVerifyJs"  item="data,name" />
+    </admin:formrow>
+    
+    <admin:formrow title="验证条件" tip="指定的情况下进行验证" >
+    	<admin:select name="verify_condition"  item="必须验证,不为空验证" value="1,2" selected="$info['verify_condition']" />
+    </admin:formrow>
+    
+    <admin:formrow title="验证失败提示" tip="验证失败后的提示信息，设置验证规则后请填写" >
+      <admin:text name="errormsg"  value="{$info.errormsg}" />
+    </admin:formrow>
+    <admin:formrow title="字段配置" tip="如果为选择或下拉等类型时多个项目名用逗号分隔开" >
+      <admin:text name="config"  value="{$info.config}"  />
+    </admin:formrow>
+    <admin:formrow title="默认值" tip="默认的内容，如果为选择或下拉等类型时填写默认选择值，多个值用逗号分隔开"  >
+      <admin:text name="default"  value="{$info.default}"  />
+    </admin:formrow>
+    <admin:formrow title="字段顺序" tip="数字越小字段越靠前"  >
+      <admin:text name="sequence"  value="{$info.sequence|default='0'}" len="20" datatype="n" errormsg="只能输入数字" width="mini" />
+    </admin:formrow>
+    <admin:formsubmit/>
+    <admin:text name="fieldset_id" type="hidden"  value="{$fieldsetInfo.fieldset_id}"  />
+    <admin:text name="field_id" type="hidden"  value="{$info.field_id}"  />
+  </admin:form>
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#form').duxForm();
+});
+</script> 

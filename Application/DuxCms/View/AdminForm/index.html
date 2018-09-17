@@ -1,0 +1,22 @@
+<h3>表单列表</h3>
+<admin:panel >
+  <admin:table id="table" show="编号|50,名称,表名,操作|160"  class="m-table-border">
+    <foreach name="list" item="vo">
+      <tr>
+      	<td>{$vo.fieldset_id}</td>
+        <td>{$vo.name}</td>
+        <td>{$vo.table}</td>
+        <td>
+        <a class="u-btn u-btn-primary u-btn-small" href="{:U('AdminFormField/index',array('fieldset_id'=>$vo['fieldset_id']))}">管理</a>
+        <a class="u-btn u-btn-primary u-btn-small" href="{:U('edit',array('fieldset_id'=>$vo['fieldset_id']))}">修改</a>
+        <a class="u-btn u-btn-danger u-btn-small del" href="javascript:;" url="{:U('del')}" data="{$vo.fieldset_id}">删除</a>
+        </td>
+      </tr>
+    </foreach>
+  </admin:table>
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#table').duxTable({});
+});
+</script> 

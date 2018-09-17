@@ -1,0 +1,128 @@
+<h3>{$name}文章栏目</h3>
+<admin:panel >
+  <admin:form url="{:U()}" method="post" id="form" >
+    <admin:row>
+      <admin:grid item="5-3">
+        <admin:formrow title="上级栏目" tip="当前栏目的上级栏目">
+          <select name="parent_id" class="form-element">
+            <option value="0">==顶级栏目==</option>
+            <foreach name="categoryList" item="vo"> <option value="{$vo.class_id}"
+              
+              <if condition="$info['parent_id'] == $vo['class_id']"> selected="selected" </if>
+              >{$vo.cname}
+              
+              </option>
+            </foreach>
+          </select>
+        </admin:formrow>
+        <admin:formrow title="栏目名称" tip="当前栏目名称">
+          <admin:text name="name" value="{$info.name}" len="250" datatype="*"  />
+        </admin:formrow>
+        <admin:formrow title="栏目属性" tip="频道页不能发布只能调用下级栏目内容">
+          <admin:radio name="type" item="频道,列表" value="0,1" checked="$info['type']" isset="1" />
+        </admin:formrow>
+        <admin:formrow title="内容分页数" tip="当前栏目的内容列表下文章每页显示数量">
+          <admin:text name="page" value="{$info.page|default='20'}"  width="small" type="number" len="10" datatype="n" />
+        </admin:formrow>
+        <admin:formrow title="栏目顺序" tip="栏目列表调用时的顺序，数字越小越靠前">
+          <admin:text name="sequence"  value="{$info.sequence|default='1'}"  width="small" type="number" len="10" datatype="n" />
+        </admin:formrow>
+        <admin:formrow title="栏目模板" tip="当前栏目列表模板">
+          <div class="input-group">
+            <admin:text name="class_tpl"  value="{$info.class_tpl}" len="250" datatype="*" width="medium" />
+            <admin:assigndown target="#class_tpl" name="请选择" data="tplList"  item="name,file" />
+          </div>
+        </admin:formrow>
+        <admin:formrow title="内容模板" tip="当前栏目下内容模板">
+          <div class="input-group">
+            <admin:text name="content_tpl"  value="{$info.content_tpl}" len="250" datatype="*" width="medium" />
+            <admin:assigndown target="#content_tpl" name="请选择" data="tplList"  item="name,file" />
+          </div>
+        </admin:formrow>
+        <admin:formrow title="栏目图片" tip=""  >
+          <admin:text name="image" type="text" value="{$info.image}" len="250" width="medium" />
+          <a class="u-btn u-btn-primary u-img-upload" data="image" preview="image-preview" href="javascript:;" id="upload">上传</a> <a class="u-btn u-btn-primary"href="javascript:;" id="image-preview">预览</a> </admin:formrow>
+        <admin:formrow title="栏目状态" tip="隐藏后在调用栏目列表时不显示">
+          <admin:radio name="show" item="显示,隐藏" value="1,0" checked="$info['show']" isset="1" />
+        </admin:formrow>
+      </admin:grid>
+      <admin:grid item="5-2" class="g-col-last">
+        <admin:formrow title="子标题" tip="扩展标题的副标题信息">
+          <admin:text name="subname"  value="{$info.subname}"  type="text" len="250" />
+        </admin:formrow>
+        <admin:formrow title="栏目URL" tip="设置URL规则后会生效">
+          <admin:text name="urlname"  value="{$info.urlname}"  type="text" len="250" />
+        </admin:formrow>
+        <admin:formrow title="栏目关键词" tip="当前栏目的关键词">
+          <admin:text name="keywords"  value="{$info.keywords}" len="250" />
+        </admin:formrow>
+        <admin:formrow title="栏目描述" tip="当前栏目的描述信息" >
+          <admin:textarea name="description" rows="5" >{$info.description}</admin:textarea>
+        </admin:formrow>
+        <admin:formrow title="内容列表排序" tip="栏目的内容列表下文章的顺序">
+          <select name="content_order" id="content_order" class="form-element">
+            <option value="time DESC" 
+      
+            
+            
+            <if condition="$info['content_order'] == 'time DESC'"> selected="selected" </if>
+            >发布时间新->旧
+      
+            
+            
+            </option>
+            <option value="time ASC" 
+      
+            
+            
+            <if condition="$info['content_order'] == 'time ASC'"> selected="selected" </if>
+            >发布时间 旧->新
+      
+            
+            
+            </option>
+            <option value="sequence DESC" 
+      
+            
+            
+            <if condition="$info['content_order'] == 'sequence DESC'"> selected="selected" </if>
+            >自定义排序 大->小
+      
+            
+            
+            </option>
+            <option value="sequence ASC" 
+      
+            
+            
+            <if condition="$info['content_order'] == 'sequence ASC'"> selected="selected" </if>
+            >自定义排序 小->大
+      
+            
+            
+            </option>
+          </select>
+        </admin:formrow>
+        <admin:formrow title="绑定字段集" tip="绑定后添加内容时可使用扩展字段">
+          <select name="fieldset_id" id="fieldset_id" class="form-element">
+            <option value="0">==不绑定==</option>
+            <foreach name="expandList" item="vo"> <option value="{$vo.fieldset_id}"
+              
+              <if condition="$info['fieldset_id'] == $vo['fieldset_id']"> selected="selected" </if>
+              >{$vo.name}
+              
+              </option>
+            </foreach>
+          </select>
+        </admin:formrow>
+      </admin:grid>
+    </admin:row>
+    <admin:formsubmit/>
+    <admin:text name="class_id" type="hidden"  value="{$info.class_id}"  />
+  </admin:form>
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#form').duxFormPage();
+});
+</script> 

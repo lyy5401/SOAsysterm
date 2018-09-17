@@ -1,0 +1,22 @@
+<h3>栏目列表</h3>
+<admin:panel >
+  <admin:table id="table" show="编号|50,名称,类型|80,排序|80,操作|130"  class="m-table-border">
+    <foreach name="list" item="vo">
+      <tr>
+      	<td>{$vo.class_id}</td>
+        <td><a href="{$vo.curl}" target="_blank">{$vo.cname}</a></td>
+        <td>{$vo.model_name}</td>
+        <td>{$vo.sequence}</td>
+        <td>
+        <a class="u-btn u-btn-primary u-btn-small" href="{:U($vo['app'].'/AdminCategory/edit',array('class_id'=>$vo['class_id']))}">修改</a>
+        <a class="u-btn u-btn-danger u-btn-small del" href="javascript:;" url="{:U($vo['app'].'/AdminCategory/del')}" data="{$vo.class_id}">删除</a>
+        </td>
+      </tr>
+    </foreach>
+  </admin:table>
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#table').duxTable({});
+});
+</script> 

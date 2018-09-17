@@ -1,0 +1,18 @@
+<h3>{$name}推荐位</h3>
+<admin:panel >
+<admin:form url="{:U()}" method="post" id="form"   class="m-form-horizontal">
+  <admin:formrow title="推荐位名称" tip="推荐位名称">
+    <admin:text name="name"  value="{$info.name}" len="250" datatype="*"  />
+  </admin:formrow>
+  <admin:formrow title="推荐位顺序" tip="数字越小越靠前">
+  	<admin:text name="sequence" value="{$info.sequence|default='0'}" type="number" len="10" width="mini" />
+  </admin:formrow>
+  <admin:formsubmit/>
+  <admin:text name="position_id" type="hidden"  value="{$info.position_id}"  />
+</admin:form>
+</admin:panel>
+<script>
+Do.ready('base',function() {
+    $('#form').duxFormPage();
+});
+</script> 

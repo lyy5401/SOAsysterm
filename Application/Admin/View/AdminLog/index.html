@@ -1,0 +1,16 @@
+<h3>安全记录</h3>
+<admin:panel >
+<admin:tabletool filter="false" keyword="{$keyword}"></admin:tabletool>
+<admin:table id="table" show="用户,时间,IP,模块,详情">
+  <foreach name="list" item="vo">
+    <tr>
+      <td>{$vo.username}</td>
+      <td>{$vo.time|date="Y-m-d H:i:s",###}</td>
+      <td>{$vo.ip}</td>
+      <td>{$vo.app}</td>
+      <td> {$vo.content}</td>
+    </tr>
+  </foreach>
+</admin:table>
+<admin:tablefoot action="false" />
+</admin:panel>

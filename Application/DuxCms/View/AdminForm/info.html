@@ -1,0 +1,50 @@
+<h3>{$name}表单</h3>
+<admin:panel >
+  <admin:form url="{:U()}" method="post" id="form"  class="m-form-horizontal" >
+    <admin:formrow title="名称" tip="当前表单的描述"  >
+      <admin:text name="name"  value="{$info.name}" len="200" datatype="*"  />
+    </admin:formrow>
+    <admin:formrow title="表名" tip="数据库中的表名"  >
+      <admin:text name="table"  value="{$info.table}" len="20" datatype="s" errormsg="请不要包含特殊字符"  />
+    </admin:formrow>
+    <admin:formrow title="列表页" tip="关闭后前台将不能查看列表分页内容"  >
+      <admin:radio name="show_list" item="开启,关闭" value="1,0" checked="$info['show_list']" isset="1" />
+    </admin:formrow>
+    <admin:formrow title="详细页" tip="关闭后前台将不能查看表单详细内容"  >
+      <admin:radio name="show_info" item="开启,关闭" value="1,0" checked="$info['show_info']" isset="1" />
+    </admin:formrow>
+    <admin:formrow title="前台发布" tip="关闭后将不能从前台提交表单"  >
+      <admin:radio name="post_status" item="开启,关闭" value="1,0" checked="$info['post_status']" isset="1" />
+    </admin:formrow>
+    <admin:formrow title="提交成功后消息" tip="表单提交成功后返回的消息"  >
+      <admin:text name="post_msg"  value="{$info.post_msg|default='表单提交成功！'}" len="20" datatype="*" errormsg="请填写成功返回消息" />
+    </admin:formrow>
+    <admin:formrow title="成功后返回地址" tip="不填将返回表单列表页"  >
+      <admin:text name="post_return_url"  value="{$info.post_return_url}" len="20" />
+    </admin:formrow>
+    <admin:formrow title="前台分页数" tip="前台列表的分页数"  >
+      <admin:text name="list_page"  value="{$info.list_page|default='10'}" len="20" datatype="n" errormsg="分页数只能为数字" width="mini"  />
+    </admin:formrow>
+    <admin:formrow title="前台列表条件" tip="标准SQL条件"  >
+      <admin:text name="list_where"  value="{$info.list_where}" len="20" />
+    </admin:formrow>
+    <admin:formrow title="内容排序" tip="针对前后台列表的分页排序"  >
+      <admin:text name="list_order"  value="{$info.list_order|default='data_id desc'}" len="20" datatype="*" errormsg="请输入排序信息"  />
+    </admin:formrow>
+    <admin:formrow title="列表模板" tip="前台表单列表所使用的模板"  >
+      <admin:text name="tpl_list"  value="{$info.tpl_list|default='form_list'}" len="20" datatype="*" errormsg="请选择模板" width="medium" />
+      <admin:assigndown target="#tpl_list" name="请选择" data="tplList"  item="name,file" />
+    </admin:formrow>
+    <admin:formrow title="详细模板" tip="前台表单列表所使用的模板"  >
+      <admin:text name="tpl_info"  value="{$info.tpl_info|default='form_content'}" len="20" datatype="*" errormsg="请选择模板" width="medium" />
+      <admin:assigndown target="#tpl_info" name="请选择" data="tplList"  item="name,file" />
+    </admin:formrow>
+    <admin:formsubmit/>
+    <admin:text name="fieldset_id" type="hidden"  value="{$info.fieldset_id}"  />
+  </admin:form>
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#form').duxForm();
+});
+</script> 

@@ -1,0 +1,314 @@
+<script src="__PUBLIC__/js/xcConfirm.js" type="text/javascript" charset="utf-8"></script>
+<style type="text/css">
+			.sgBtn{width: 135px; height: 35px; line-height: 35px; margin-left: 10px; margin-top: 10px; text-align: center; background-color: #0095D9; color: #FFFFFF; float: left; border-radius: 5px;}
+			.dc{width:100px;height: 25px;line-height: 25px;background-color: #E4354F;color: white;}
+            .remark{width:150px;border: 1px solid #DDDDDD;min-height: 50px}
+            .m-page .current{background-color:papayawhip;}
+            .jilu{float: right; height:20px;}
+</style>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/xcConfirm.css"/>
+<h3>客户列表</h3>
+<admin:panel >
+	 	<form action="{:U()}" method="post"  class="m-form-horizontal"  style="float: left;">
+	    <label>模糊搜索:</label>	
+	    <input type="text" name="keyword" value="{$guanjianzi}"  style="height:25px;border: 1px solid #DDDDDD;" id="mohu">
+	 	<!--1.条件手机号码-->
+		<label>手机号码:</label><input type="text" name="phone" value="{$phone}" id="phone" style="height:25px;border: 1px solid #DDDDDD;" id="phone">
+		<!--2.权限为1的用户组-->
+		&emsp;
+		 <if condition="$_SESSION['rank'] eq 1"> 
+	  <label>用户组:</label>	 	
+     <select name="group_id" class="form-element"  id="group">
+     <option value="">=用户组=</option>
+     <foreach name="groupList" item="vo"> <option value="{$vo.group_id}" 
+      <if condition="$groupId == $vo['group_id']"> selected="selected" </if>
+      >{$vo.name}
+      </option>
+    </foreach>
+  </select>
+ </if> 
+    <!--3.权限为2的销售员组-->
+    <if condition="$_SESSION['rank'] LT 3">
+    	&emsp;
+   <label>销售员:</label>
+   <select name="salesman" class="form-element" id="saleman">
+    <option value="0">=销售员=</option>
+    <foreach name="workerlist" item="vo"> <option value="{$vo.user_id}" 
+      <if condition="$salesman == $vo['user_id']"> selected="selected" </if>
+      >{$vo.nicename}
+      </option>
+    </foreach>
+ </select>
+ </if>
+ 
+ <!--4.状态组-->
+ 	&emsp;
+   <label>状态:</label>
+ <select name="result" class="form-element" id="status">
+    <option value="">=未选择=</option>
+    <option value="1"   <if condition="$status  eq 1"> selected="selected" </if>>==已合作==</option>
+    <option value="10"  <if condition="$status eq 10"> selected="selected" </if>>==未合作==</option>
+ </select>
+    <br>
+    <!--时间检索-->
+    &nbsp;&nbsp;
+    <label>时间段:</label>
+     <input type="date" name="start_time"  value="{$start}" style="height:25px;border: 1px solid #DDDDDD;" id="start" />
+    <label>至</label>
+    <input type="date" name="end_time"  value="{$end}" style="height:26px;border: 1px solid #DDDDDD;" id="end"/>&nbsp;
+    <input type="submit" class="u-btn u-btn-primary u-btn-small" style="height:27px;" value="搜索" >
+    <input type="button" class="u-btn u-btn-danger u-btn-small" style="height:27px;" id="reset" value="重置">
+            <a href="{:U('expUser')}">  </a>
+            <font class="u-btn u-btn-success u-btn-small" style="height:27px;" id="export">导出</font>
+ 	</form>
+
+    <form action="{:U()}" method="post"  class="m-form-horizontal"  style="float:right;" id="tijiao">
+    <label>全局搜索:</label>
+    <input type="text" name="overall" value="{$overall}" placeholder="请输入完整的手机号码"  style="height:25px;border: 1px solid #DDDDDD;" id="overall">
+        <input type="submit" class="u-btn u-btn-primary u-btn-small" style="height:27px;" value="搜索" >
+    </form>
+
+
+<div style="height: 10px; clear: both;"></div>
+<admin:table id="table" show="选择,序号,手机号码,微信号,客户姓名,公司,销售员,销售员公司,状态|50,成交备注,创建时间|80,操作|180">
+  <foreach name="list" item="vo">
+    <tr>
+      <td>
+		<input type="checkbox" name="id[]" value="{$vo.phone}+{$vo.salesman}" />
+	  </td>
+      <td>{$vo.id}</td>
+      <td>{$vo.phone}</td>
+      <td>{$vo.wechat}</td>
+      <td>{$vo.name}</td>
+      <td>{$vo.company}</td>
+      <td>{$vo.sales}</td>
+      <td>{$vo.sale_company}</td>     
+      <td>
+      	<if condition="$vo['status']"> <span class="u-badge u-badge-success">已合作</span>
+          <else />
+          <span class="u-badge u-badge-danger">未合作</span> </if>
+      </td>
+       <td>
+      	<div class="remark">{$vo.remark}</div>
+      </td>
+      <td>{$vo.create_time}</td>
+      <td>    
+      	<if condition="$rank eq 1 ">
+      	<i class="u-btn u-btn-primary u-btn-small btn6"  phone="{$vo.phone}" >合作</i>
+        <i class="u-btn u-btn-success u-btn-small btn7"  phone="{$vo.phone}">取消合作</i>  
+        <a class="u-btn u-btn-danger u-btn-small del" href="javascript:;" data="{$vo.phone}+{$vo.salesman}" confirm="1" >删除</a></td>     	 
+      	</if>
+      	<!--<a class="u-btn u-btn-danger u-btn-small del" href="javascript:;" data="{$vo.phone}+{$vo.salesman}" confirm="<if condition='$rank eq 2 '>1 <else />0</if>" >删除</a></td>-->
+    </tr>
+  </foreach>
+     <input type="hidden" value="{$_SESSION['oppassword']}" id="oppassword">
+</admin:table>
+<div class="jilu">
+	<label>当前记录总数:</label>
+    <label style="color: red;">{$sum}</label>	
+</div>
+<div style="clear: both;height: 1px;"></div>
+<if condition="$_SESSION['rank'] eq 1"> 
+	<admin:tablefoot action="true" item="===未选择===,批量删除,批量设置状态已合作,批量设置状态未合作" value="0,1,2,3" />
+	<else /> <admin:tablefoot action="false"/>
+</if>
+</admin:panel>
+<if condition="$rank lt 3">
+<script>
+    //ajax加载操作密码
+    window.onload=function(){
+        $.ajax({
+            type:"post",
+            url:"{:U('getoppword') }",
+            dataType:'json',
+            async : true,
+            data:{
+            },
+            success:function(data){
+                $('#oppassword').val(data);
+            },
+            error:function(){
+
+            }
+        });
+    }
+</script>
+    </if>
+<script>
+	
+ //删除操作
+	Do.ready('base', function() {
+		//移动操作
+		$('#selectAction').change(function() {
+			var type = $(this).val();
+			if (type == 3) {
+				$(this).after($('#class_id').clone());
+			} else {
+				$(this).nextAll('select').hide();
+			}
+		});
+		//表格处理
+		$('#table').duxTable({
+			actionUrl: "{:U('batchAction')}",
+			deleteUrl: "{:U('del')}",
+			actionParameter: function() {
+				return {
+					'class_id': $('#selectAction').next('#class_id').val()
+				};
+			}
+		});
+	});
+
+
+
+$(".btn6").click(function(){
+	         var txt1="请输入操作密码";
+	         var _this=$(this);
+	          var key=$("#oppassword").val(); 
+	         window.wxc.xcConfirm(txt1, window.wxc.xcConfirm.typeEnum.input,{
+	         	onOk:function(v){
+	         		if(key==v){
+	         	   	var txt=  "请输入成交备注信息";					
+					window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.input,{
+						onOk:function(v){
+						   phone=_this.attr('phone');
+						   remark=v;
+							  $.ajax({
+                       type:"post",
+                       url:"{:U('strike')}",
+                       dataType:'json',
+                       async : false,
+                       data:{
+                           phone:phone,
+                           remark:remark
+                       },
+                       success:function(data){
+                       	if(data){
+                       		var txt="状态改变成功,改变记录数为"+data+"条";
+					                 var option = {
+						              title: "返回结果",
+						             // btn: parseInt("0011",2), 取消按钮
+						              onOk: function(){
+							              location.reload();;
+						             }
+				              }
+					           window.wxc.xcConfirm(txt, "custom", option);					                
+                       	}else{
+                       		 var txt="改变记录数为"+data+"条,请检验该单子的状态是否合法";
+					          window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.info);
+                       	}
+                       },
+                       error:function(){
+                            alert('异常错误,请稍后重试!');
+                      }
+                    });
+						}
+					});
+					}else{
+						 var txt="操作密码验证失败!请重试";
+					     window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.info);
+					}
+	         	}
+	        }) 	
+				});
+				
+	//取消关注			
+$(".btn7").click(function(){
+	               var txt1="请输入操作密码";
+	               var _this=$(this);
+	               var key=$("#oppassword").val();   
+	                 window.wxc.xcConfirm(txt1, window.wxc.xcConfirm.typeEnum.input,{
+	         	onOk:function(v){
+	         		if(key==v){
+	         		var txt=  "取消成交后,所有包含该客户的数据都将取消成交";				
+					var option = {
+						title: "取消成交",
+						btn: parseInt("0011",2),
+						onOk: function(){
+						  phone=_this.attr('phone');	
+						    $.ajax({
+                       type:"post",
+                       url:"{:U('initial')}",
+                       dataType:'json',
+                       async : false,
+                       data:{
+                           phone:phone,
+                       },
+                       success:function(data){
+                       	if(data){
+                       		var txt="状态改变成功,改变记录数为"+data+"条";
+					                 var option = {
+						              title: "返回结果",
+						             // btn: parseInt("0011",2), 取消按钮
+						              onOk: function(){
+							              location.reload();;
+						             }
+				              }
+					           window.wxc.xcConfirm(txt, "custom", option);					                
+                       	}else{
+                       		 var txt="改变记录数为"+data+"条,请检验该单子的状态是否合法";
+					                 window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.info);
+                       	}
+                       },
+                       error:function(){
+                            alert('异常错误,请稍后重试!');
+                      }
+                    });					 
+						}
+					}
+					window.wxc.xcConfirm(txt, "custom", option);	         		
+	         	 }else{
+						 var txt="操作密码验证失败!请重试";
+					     window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.info);
+					}
+	         		}
+	         	 })
+	               
+				});
+
+    //重置操作
+       $('#reset').click(function () {
+           $("#phone").val('');
+           $("#start").val('');
+           $("#end").val('');
+           $("#group").val('');
+           $("#status").val('');
+           $("#saleman").val('');
+           $("#mohu").val('');
+       })
+
+   
+     $('#export').click(function(){
+     	var status=$('#status').val()
+     	if(status ==1){ //如果是导出已合作得状态，则需要验证密码
+     		     var txt1="请输入导出已合作操作密码";
+	               window.wxc.xcConfirm(txt1, window.wxc.xcConfirm.typeEnum.input,{
+	         	onOk:function(v){
+	         	   if(v=="ckjradmin2017"){
+	         	   	window.location.href="{:U('expUser')}";
+	         	   }else{
+						 var txt="操作密码验证失败!请重试";
+					     window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.info);
+					}	               
+	         		}
+	         	 })
+     	}else{
+     		window.location.href="{:U('expUser')}";
+     	}
+     })
+
+
+    var tijiao = document.getElementById('tijiao');
+    tijiao.onsubmit=function () {
+        var overall=document.getElementById('overall').value;
+        reg = /^0{0,1}(13[0-9]|145|147|15[0-9]|17[0-9]|18[0-9]|19[0-9]|16[0-9])[0-9]{8}$/i;
+        if (!reg.test(overall)) {
+            alert("请输入正确手机号");
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+     
+</script>

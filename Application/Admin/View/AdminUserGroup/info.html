@@ -1,0 +1,32 @@
+<h3>{$name}用户组</h3>
+<admin:panel >
+<admin:form url="{:U()}" method="post" id="form"   class="m-form-horizontal">
+	
+   <admin:formrow title="父级分类" tip="请选择父级分类"  >
+      <select name="parent_id" class="form-element">
+      	<option value="">==请选择==</option>
+        <foreach name="classify" item="vo"> <option value="{$vo.group_id}" 
+          <if condition="$info['parent_id'] == $vo['group_id']"> selected="selected" </if>
+          >{$vo.name}
+          </option>
+        </foreach>
+      </select>
+    </admin:formrow>
+	
+  <admin:formrow title="用户组名称" tip="用户组标识名称" labelwidth="1" width="2" >
+    <admin:text name="name"  value="{$info.name}" len="250" datatype="*"  />
+  </admin:formrow>
+  <admin:formrow title="用户组状态" tip="禁用后改组用户将无法登录" labelwidth="1" width="2" >
+    <admin:radio name="status"  item="正常,禁用" value="1,0" checked="$info['status']" isset="1" />
+  </admin:formrow>
+  <admin:formsubmit/>
+  <admin:text name="group_id" type="hidden"  value="{$info.group_id}"  />
+</admin:form>
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#form').duxForm();
+});
+
+
+</script> 

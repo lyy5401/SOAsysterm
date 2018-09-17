@@ -1,0 +1,95 @@
+<script src="__PUBLIC__/js/xcConfirm.js" type="text/javascript" charset="utf-8"></script>
+<style type="text/css">
+			.sgBtn{width: 135px; height: 35px; line-height: 35px; margin-left: 10px; margin-top: 10px; text-align: center; background-color: #0095D9; color: #FFFFFF; float: left; border-radius: 5px;}
+			.dc{width:100px;height: 25px;line-height: 25px;background-color: #E4354F;color: white;}
+            .remark{width:150px;border: 1px solid #DDDDDD;min-height: 50px}
+            .m-page .current{background-color:papayawhip;}
+</style>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/xcConfirm.css"/>
+<h3>用户组列表</h3>
+<admin:panel >
+<admin:table id="table" show="编号|50,名称,归属,状态,操作|190"  class="m-table-border">
+  <foreach name="list" item="vo">
+    <tr>
+      <td>{$vo.group_id}</td>
+      <td>{$vo.name}</td>
+      <td>{$vo.parent_name}</td>
+      <td><if condition="$vo['status']"> <span class="u-badge u-badge-success">正常</span>
+          <else />
+          <span class="u-badge u-badge-danger">禁用</span> </if></td>
+      <td>
+      	  <a class="u-btn u-btn-primary u-btn-small edit"  href="javascript:;" data="{$vo.group_id}"  >修改</a>
+      	  <a class="u-btn u-btn-primary u-btn-small purview"  href="javascript:;" data="{$vo.group_id}" >权限</a> 
+      	  <a class="u-btn u-btn-danger u-btn-small del" href="javascript:;" data="{$vo.group_id}" confirm="1">删除</a></td>
+    </tr>
+  </foreach>
+     <input type="hidden" value="{$_SESSION['oppassword']}" id="oppassword">
+</admin:table>
+</admin:panel>
+<script>
+	//href="{:U('edit',array('group_id'=>$vo['group_id']))}"
+	//href="{:U('purview',array('group_id'=>$vo['group_id']))}"
+	 $('.edit').click(function(){
+	 	var txt1="请输入操作密码";
+	   var group_id=$(this).attr('data');
+	   var oppassword=$("#oppassword").val();
+	   window.wxc.xcConfirm(txt1, window.wxc.xcConfirm.typeEnum.input,{
+	         	onOk:function(v){
+	         	  if(oppassword==v){
+	         	  	 window.location.href="/index.php?s=/Admin/AdminUserGroup/edit/group_id/"+group_id
+	         	  }else{
+	         	  	     var txt="操作密码验证失败!请重试";
+					     window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.info);
+	         	  }
+	         	}
+	        })
+	 
+	 })
+	 	 
+	 $('.purview').click(function(){
+	 	var txt1="请输入操作密码";
+	   var group_id=$(this).attr('data');
+	   var oppassword=$("#oppassword").val();
+	   window.wxc.xcConfirm(txt1, window.wxc.xcConfirm.typeEnum.input,{
+	         	onOk:function(v){
+	         	  if(oppassword==v){
+	         	  	 window.location.href="/index.php?s=/Admin/AdminUserGroup/purview/group_id/"+group_id
+	         	  }else{
+	         	  	     var txt="操作密码验证失败!请重试";
+					     window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.info);
+	         	  }
+	         	}
+	        })
+	 
+	 })
+	
+	
+	
+	//ajax加载操作密码
+	      window.onload=function(){
+		      $.ajax({
+                       type:"post",
+                       url:"{:U('Client/getoppword') }",
+                       dataType:'json',
+                       async : false,
+                       data:{                       
+                       },
+                       success:function(data){
+                          if (data) {
+                          	  $('#oppassword').val(data);
+                          }                        
+                       },
+                       error:function(){
+
+                      }
+                   });
+	       }
+	
+	
+	
+Do.ready('base',function() {
+	$('#table').duxTable({
+		deleteUrl: "{:U('del')}"
+	});
+});
+</script> 

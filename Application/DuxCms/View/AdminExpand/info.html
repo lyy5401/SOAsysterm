@@ -1,0 +1,21 @@
+<h3>{$name}扩展模型</h3>
+<admin:panel >
+  <admin:form url="{:U()}" method="post" id="form"  class="m-form-horizontal" >
+    <admin:formrow title="名称" tip="当前扩展模型的描述"  >
+      <admin:text name="name"  value="{$info.name}" len="200" datatype="*"  />
+    </admin:formrow>
+    <admin:formrow title="表名" tip="数据库中的表名"  >
+      <admin:text name="table"  value="{$info.table}" len="20" datatype="s" errormsg="请不要包含特殊字符"  />
+    </admin:formrow>
+    <admin:formrow title="状态" tip="">
+          <admin:radio name="status" item="正常,禁用" value="1,0" checked="$info['status']" isset="1" />
+        </admin:formrow>
+    <admin:formsubmit/>
+    <admin:text name="fieldset_id" type="hidden"  value="{$info.fieldset_id}"  />
+  </admin:form>
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#form').duxForm();
+});
+</script> 

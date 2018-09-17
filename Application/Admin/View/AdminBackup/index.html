@@ -1,0 +1,19 @@
+<h3>备份列表</h3>
+<admin:panel >
+<admin:table id="table" show="备份文件,操作|130"  class="m-table-border">
+  <foreach name="list" item="vo">
+    <tr>
+      <td>{$vo.name}</td>
+      <td><a class="u-btn u-btn-primary u-btn-small action" url="{:U('import')}" href="javascript:;" data="{$vo.time}">还原</a> <a class="u-btn u-btn-danger u-btn-small del" href="javascript:;" data="{$vo.time}">删除</a></td>
+    </tr>
+  </foreach>
+</admin:table>
+<admin:tablefoot action="false" />
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#table').duxTable({
+		deleteUrl: "{:U('del')}"
+	});
+});
+</script>

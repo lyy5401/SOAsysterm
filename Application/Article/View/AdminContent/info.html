@@ -1,0 +1,154 @@
+<h3>{$name}文章</h3>
+<admin:form url="{:U()}" method="post" id="form">
+  <div class="g-main-body">
+    <div class="g-main-content m-form-horizontal">
+      <admin:panel >
+        <admin:formrow title="文章栏目" tip="当前文章的所属栏目">
+          <select name="class_id" class="form-element" id="class_id">
+            <option value="0">==请选择栏目==</option>
+            <foreach name="categoryList" item="vo"> <option value="{$vo.class_id}" 
+              <if condition="$info['class_id'] == $vo['class_id']">selected="selected"</if>
+              <if condition="$vo['type'] == 0 || $vo['app'] != MODULE_NAME ">  style="background-color:#CCC" disabled="disabled" </if>
+              >{$vo.cname}
+              </option>
+            </foreach>
+          </select>
+        </admin:formrow>
+        <admin:formrow title="文章标题" tip="文章标题请不要填写特殊字符">
+          <admin:text name="title" value="{$info.title}" len="250" datatype="*" width="large" />
+          <select name="font_color" class="form-element" id="font_color">
+            <option value="0">==标题颜色==</option>
+            <option style="color: White;background-color: red;" value="{$vo.red}">红色</option>
+            <option style="color: White;background-color: blue;" value="{$vo.blue}">蓝色</option>
+            <option style="color: White;background-color: green;" value="{$vo.green}">绿色</option>
+            <option style="color: White;background-color: orange;" value="{$vo.orange}">橙色</option>
+            <option style="color: Black;background-color: White;" value="{$vo.White}">白色</option>
+            <option style="color: White;background-color: Black;" value="{$vo.Black}">黑色</option>
+          </select>
+          <label>
+            <input name="font_bold" type="checkbox" id="font_bold" value="1">
+            <span>加粗</span></label>
+          <label>
+            <input name="font_em" type="checkbox" id="font_em" value="1">
+            <span>倾斜</span></label>
+        </admin:formrow>
+        <admin:formrow title="文章推荐" tip="将文章推荐到指定调用位置">
+         <?php $positionArray = explode(',',$info['position']);  ?>
+         <foreach name="positionList" item="vo"> 
+         	<label>
+            <input name="position[]" type="checkbox" 
+             <if condition="in_array($vo['position_id'],$positionArray)">checked="checked"</if>
+             value="{$vo.position_id}" />
+            <span>{$vo.name}</span></label>
+            </foreach>
+        </admin:formrow>
+        <admin:formrow title="文章内容">
+          <admin:textarea name="content" class="u-editor" rows="20">{$info.content|html_out}</admin:textarea>
+        </admin:formrow>
+        <admin:formrow title="内容功能" >
+          <label>
+            <input name="get_image" id="get_image" type="checkbox" value="1" />
+            <span>提取第
+            <admin:text name="get_image_num" value="1" type="number" len="10" width="mini" />
+            张图片作封面</span></label>
+          <label>
+            <input name="get_description" id="get_description" type="checkbox" value="1" />
+            <span>提取文章描述</span></label>
+        </admin:formrow>
+        <div id="expand"></div>
+        <admin:formrow title="文章描述" tip="不填写描述信息系统将会自动获取">
+          <admin:textarea name="description" rows="3">{$info.description}</admin:textarea>
+        </admin:formrow>
+        <admin:formrow title="关键词/TAG" tip="选择链接TAG后将会为内容的关键词链接TAG列表">
+          <div class="input-group">
+            <admin:text name="keywords" value="{$info.keywords}" len="250" />
+            <admin:select name="taglink" item="不链接TAG,链接TAG" value="0,1" selected="$info['taglink']" />
+            <a class="u-btn u-btn-primary" href="javascript:;" id="getKeyword" >提取</a> </div>
+        </admin:formrow>
+        <admin:formrow title="文章状态" tip="">
+          <admin:radio name="status" item="发布,草稿" value="1,0" checked="$info['status']" isset="1" />
+        </admin:formrow>
+        <admin:formsubmit/>
+      </admin:panel>
+    </div>
+  </div>
+  <div class="g-main-sidebar">
+    <admin:panel title="形象图" icon="plus" padding="true">
+        <div class="u-thumbnail">
+        <if condition="empty($info['image'])">
+        <img id="content_image" src="__PUBLIC__/admin/images/placeholder.jpg" width="270" alt="">
+        <else/>
+        <img id="content_image" src="{$info.image}" width="270" alt="">
+        </if>
+        </div>
+        <admin:text name="image" type="text" value="{$info.image}" len="250" width="medium" />
+        <a class="u-btn u-btn-primary" data="image" href="javascript:;" id="upload">上传</a>
+    </admin:panel>
+    <admin:panel title="发布属性" icon="plus" padding="true">
+      <admin:formrow title="发布时间" tip="请按照格式填写发布时间">
+        <if condition="empty($info['time'])">
+          <admin:text name="time" value="{:date('Y/m/d H:i')}" len="250" datatype="*" class="u-time" />
+          <else/>
+          <admin:text name="time" value="{$info.time|date='Y/m/d H:i',###}" len="250" datatype="*" class="u-time" />
+        </if>
+      </admin:formrow>
+      <admin:formrow title="来源" tip="当然内容来源">
+        <admin:text name="copyfrom" value="{$info.copyfrom|default='本站'}" len="200" />
+      </admin:formrow>
+      <admin:formrow title="访问量" tip="文章点击次数">
+        <admin:text name="views" value="{$info.views|default='0'}" type="number" len="10" />
+      </admin:formrow>
+      <admin:formrow title="顺序" tip="开启自定义排序有效">
+        <admin:text name="sequence" value="{$info.sequence|default='0'}" type="number" len="10" />
+      </admin:formrow>
+    </admin:panel>
+    <admin:panel title="高级属性" icon="plus" padding="true">
+      <admin:formrow title="内容URL" tip="设置URL规则后会生效">
+        <admin:text name="urltitle" value="{$info.urltitle}" len="250" />
+      </admin:formrow>
+      <admin:formrow title="跳转到" tip="设置后访问内容会跳转">
+        <admin:text name="url" value="{$info.url}" len="250" />
+      </admin:formrow>
+      <admin:formrow title="内容模板" tip="不设置将使用列表设置模板">
+        <admin:text name="tpl" value="{$info.tpl}" len="250" width="small" />
+        <admin:assigndown target="#tpl" name="请选择" data="tplList" item="name,file" class="u-width-small" />
+      </admin:formrow>
+    </admin:panel>
+  </div>
+  </admin:row>
+  <admin:text name="content_id" type="hidden" value="{$info.content_id}" />
+</admin:form>
+<script>
+    Do.ready('base', function () {
+        //表单综合处理
+        $('#form').duxFormPage();
+        //上传缩略图
+        $('#upload').duxFileUpload({
+            type: 'jpg,png,gif,bmp',
+            complete: function (data) {
+                $('#content_image').attr('src', data.url);
+            }
+        });
+        //提取关键词
+        $('#getKeyword').click(function () {
+            $.post('{:U("DuxCms/ContentTools/getKerword")}', {
+                    title: $('#content').val(),
+                    content: $('#description').val()
+                },
+                function (data) {
+                    if (data.status) {
+                        $('#keywords').val(data.info);
+                    } else {
+                        alert(data.info);
+                    }
+                }, 'json');
+        });
+		//动态获取扩展字段
+		$('#class_id').change(function() {
+			$('#expand').load('{:U("DuxCms/AdminExpand/getField")}',{class_id:$(this).val(),content_id:$('#content_id').val()},function(){
+				$('#expand').duxFormPage({form:false});
+			});
+		});
+		$('#class_id').change();
+    }); 
+</script>

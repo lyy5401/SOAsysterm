@@ -1,0 +1,25 @@
+<h3>手机版设置</h3>
+<admin:panel >
+<admin:form url="{:U('tpl')}" method="post" id="form" class="m-form-horizontal" >
+   <admin:formrow title="开启手机版" tip="请根据需要开启">
+      <admin:radio name="mobile_status"  item="开启,关闭" value="1,0" checked="$info['mobile_status']" />
+    </admin:formrow>
+    <admin:formrow title="手机模板" tip="手机版所使用的主题" >
+    <div  class="input-group">
+      <admin:text name="mobile_tpl" value="{$info.mobile_tpl}" len="250" datatype="*" width="small" />
+      <admin:assigndown target="#mobile_tpl" name="请选择" data="themesList"  item="name,file" />
+    </div>
+  </admin:formrow>
+    <admin:formrow title="绑定域名" tip="绑定域名后可通过域名访问手机版，如：m.baidu.com" >
+    <div  class="input-group">
+      <admin:text name="mobile_domain" value="{$info.mobile_domain}" len="250" />
+    </div>
+  </admin:formrow>
+  <admin:formsubmit/>
+</admin:form>
+</admin:panel>
+<script>
+Do.ready('base', function() {
+	$('#form').duxForm();
+});
+</script> 
